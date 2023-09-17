@@ -25,7 +25,7 @@ barlines <- "#1F3552"
 ### Starting with 2000 Model 
 
 ### Social Dimension
-```{r}
+```{r social}
 
 
 ## african american or black
@@ -37,8 +37,8 @@ p1 <- ggplot(df_2000, aes(x = per_black)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.02,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "African American or Black Population by County")+
-        scale_y_continuous(name = "Proportion of Percentage") +
-        ggtitle("Frequency of Proportion of Percentange of African American or Black Population by County") +
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of African American or Black Population by County") +
   theme_classic()
 
 p1
@@ -132,5 +132,251 @@ p7
 
 ```
 
+### Economic Dimension
+```{r economic}
+## below poverty
 
+summary(df_2000$per_below_poverty)
+sd(df_2000$per_below_poverty)
+
+pe1 <- ggplot(df_2000, aes(x = per_below_poverty)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Below Poverty Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Below Poverty Population by County") +
+  theme_classic()
+
+pe1
+
+
+## renter
+summary(df_2000$per_rent)
+sd(df_2000$per_rent)
+
+pe2 <- ggplot(df_2000, aes(x = per_rent)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Renter Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange Renter Population by County") +
+  theme_classic()
+
+pe2
+
+
+## hh with no car
+summary(df_2000$per_no_car)
+sd(df_2000$per_no_car)
+
+pe3 <- ggplot(df_2000, aes(x = per_no_car)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "No Car Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of No Car Population by County") +
+  theme_classic()
+
+pe3
+
+## college or higher education
+summary(df_2000$per_college_or_higher)
+sd(df_2000$per_college_or_higher)
+
+pe4 <- ggplot(df_2000, aes(x = per_college_or_higher)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "College or Higher Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of College or Higher Population by County") +
+  theme_classic()
+
+pe4
+
+## hh with lack of plumbing
+summary(df_2000$per_lack_plumbing)
+sd(df_2000$per_lack_plumbing)
+
+pe5 <- ggplot(df_2000, aes(x = per_lack_plumbing)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Lack of Plumbing Household by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of ack of Plumbing Household  by County") +
+  theme_classic()
+
+pe5
+
+## mobile hom
+summary(df_2000$per_mobile_home)
+sd(df_2000$per_mobile_home)
+
+pe6 <- ggplot(df_2000, aes(x = per_mobile_home)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Mobile Home by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Mobile Home Population by County") +
+  theme_classic()
+
+pe6
+
+
+```
+
+### Health Dimension
+```{r}
+## hyperteension
+
+
+summary(df_2000$hypertension_2001)
+sd(df_2000$per_below_poverty)
+
+ph1 <- ggplot(df_2000, aes(x = hypertension_2001)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.5,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Hypertension Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Hypertension Population") +
+  theme_classic()
+
+ph1
+
+
+## nursing home
+summary(df_2000$per_nursing)
+sd(df_2000$per_nursing)
+
+ph2 <- ggplot(df_2000, aes(x = per_nursing)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Nursing Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Nursing Population") +
+  theme_classic()
+
+ph2
+
+```
+
+
+### institutional dimension
+```{r}
+
+## fema 
+summary(df_2000$FEMA_total)
+sd(df_2000$FEMA_total)
+
+pi1 <- ggplot(df_2000, aes(x = FEMA_total)) +
+        geom_histogram(aes(y = ..count..), binwidth = 15000000,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Fema Disaster Aid by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Fema Disaster Aid") +
+  theme_classic()
+
+pi1
+## research institution
+summary(df_2000$number_research_institutions)
+sd(df_2000$number_research_institutions)
+
+pi2 <- ggplot(df_2000, aes(x = number_research_institutions)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.5,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Number of Research Institutions by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Research Institutions") +
+  theme_classic()
+
+pi2
+# numb of local government employees
+summary(df_2000$employees_2001)
+sd(df_2000$employees_2001)
+
+pi3 <- ggplot(df_2000, aes(x = employees_2001)) +
+        geom_histogram(aes(y = ..count..), binwidth = 5000,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Number of Local Government Employees by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Local Government Employees") +
+  theme_classic()
+
+pi3
+```
+
+
+### environmental dimension
+```{r}
+#air quality
+
+summary(df_2000$air_quality)
+sd(df_2000$air_quality)
+
+pen1 <- ggplot(df_2000, aes(x = air_quality)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Air Quality by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Air Quality") +
+  theme_classic()
+
+pen1
+
+# water quality
+summary(df_2000$water_quality)
+sd(df_2000$water_quality)
+
+pen2 <- ggplot(df_2000, aes(x = water_quality)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Water Quality by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Water Quality") +
+  theme_classic()
+
+pen2
+
+#built quality
+summary(df_2000$built_quality)
+sd(df_2000$built_quality)
+
+pen3 <- ggplot(df_2000, aes(x = built_quality)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Built Quality by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Built Quaity") +
+  theme_classic()
+
+pen3
+
+# land quality
+summary(df_2000$land_quality)
+sd(df_2000$land_quality)
+
+pen4 <- ggplot(df_2000, aes(x = land_quality)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Land Quality by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Land Quality") +
+  theme_classic()
+
+pen4
+
+# impervious surface
+
+summary(df_2000$impervious_surface)
+sd(df_2000$impervious_surface)
+
+pen5 <- ggplot(df_2000, aes(x = impervious_surface)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Impervious Surface by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Impervious Surface") +
+  theme_classic()
+
+pen5
+```
 
