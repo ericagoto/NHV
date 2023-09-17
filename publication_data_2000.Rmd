@@ -1,0 +1,566 @@
+---
+title: "Publication Data"
+author: "Erica"
+date: "2023-01-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Regression Analysis
+```{r}
+library(readxl)
+library(dplyr)
+library(devtools)
+library(tidyverse)
+library(ggbiplot)
+library(ggplot2)
+library(GGally)
+library(mice) # for inputation
+library(ggmice) # for inputation
+library(scales)
+#install.packages("corrplot")
+library(corrplot)
+library(writexl)
+
+### Importing datasets
+df <- read_excel("data_2000.xlsx")
+
+
+```
+
+
+### z-score function
+```{r}
+
+z_score <- function(x){
+  zscore= ((x - mean(x, na.rm = TRUE))/sd(x, na.rm = TRUE))
+zscore
+}
+
+```
+
+
+```{r}
+df$employees_2001_norm <- z_score(df$employees_2001)
+df$air_quality_norm <- z_score(df$air_quality)
+df$water_quality_norm <- z_score(df$water_quality)
+df$built_quality_norm <- z_score(df$built_quality)
+df$land_quality_norm <- z_score(df$land_quality)
+df$impervious_surface_norm <- z_score(df$impervious_surface)
+
+```
+
+
+##Plotting
+## Causality_log and Property  Damage log
+```{r}
+################### causality  plot ################################
+causality <- ggplot(df, aes(causality_log))
+causality + geom_histogram(binwidth = 0.8)  ### left-skewed
+
+
+
+################### Crop & Property Damage log ################################
+crop_property_damage_log<- ggplot(df, aes(prop_dmg_log))
+crop_property_damage_log + geom_histogram(binwidth = 1)
+
+```
+
+### CAUSALITY 
+#### Social Dimension and Causality
+```{r fig.height=10, fig.width=10}
+### social dimension  VS causality log normalized plot
+cor.test(df$causality_log, df$per_white_norm) #okay # remove due to highly correlation with black and per_female_hh_with_kids_under18_norm
+cor.test(df$causality_log, df$per_black_norm)#okay
+cor.test(df$causality_log, df$per_hispanic_norm)#okay
+cor.test(df$causality_log, df$per_asian_norm)#okay
+cor.test(df$causality_log, df$per_american_indian_norm)#okay 
+cor.test(df$causality_log, df$per_other_races_norm)#okay# remove bc highly correlated with hispanci
+cor.test(df$causality_log, df$per_POC_norm)#okay # remove bc highly correlated with hispanic
+
+cor.test(df$causality_log, df$per_elderly_norm) #okay
+cor.test(df$causality_log, df$per_young_dependent_norm)  #okay
+cor.test(df$causality_log, df$per_noenglish_norm)# #okay highly correlated with hispanic
+cor.test(df$causality_log, df$per_foreign_born_norm)##okay highly correlated with per_noenglish_norm
+cor.test(df$causality_log, df$per_female_hh_with_kids_under6_norm)##okay
+cor.test(df$causality_log, df$per_female_hh_with_kids_under18_norm)#okay # remove bc highly correlated with black, white, and per_female_hh_with_kids_under6_norm
+cor.test(df$causality_log, df$per_rural_norm)#okay
+cor.test(df$causality_log, df$per_no_schooling_completed_norm) #not statistically significant
+
+
+
+X<-df%>%
+  select(
+         per_black_norm,
+              per_hispanic_norm,
+         per_asian_norm,
+         per_american_indian_norm,
+         per_elderly_norm,
+         per_young_dependent_norm,
+         per_female_hh_with_kids_under6_norm,
+         per_rural_norm) 
+        
+ggpairs(X)
+
+
+social_causality <- lm(causality_log~(per_black_norm+per_hispanic_norm + per_asian_norm + per_american_indian_norm+per_elderly_norm+per_young_dependent_norm+per_female_hh_with_kids_under6_norm+per_rural_norm)+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+summary(social_causality)
+
+```
+#### Economic Dimension and Causality 
+```{r fig.height=10, fig.width=10}
+### economic dimension  VS causality log normalized plot
+
+cor.test(df$causality_log, df$per_below_poverty_norm) #okay
+cor.test(df$causality_log, df$median_hh_income_1999_norm)#okay # remove because highly correlated with per_below_poverty_norm and college 
+cor.test(df$causality_log, df$per_rent_norm)# okay
+cor.test(df$causality_log, df$per_no_carnorm)#okay
+
+cor.test(df$causality_log, df$per_college_or_higher_norm)# okay
+cor.test(df$causality_log, df$average_hh_norm)#okay
+
+cor.test(df$causality_log, df$per_lack_plumbing_norm)#okay
+
+cor.test(df$causality_log, df$per_lack_kitchen_norm) #okay # remove because highly correlated with lack of plumbing
+cor.test(df$causality_log, df$per_mobile_home_norm)#okay
+cor.test(df$causality_log, df$per_unemployed_norm)## not statistically significant
+
+
+X<-df%>%
+  select(
+         per_below_poverty_norm,
+         per_rent_norm,
+         per_no_carnorm,
+         per_college_or_higher_norm,
+         per_lack_plumbing_norm,
+         per_mobile_home_norm) 
+        
+ggpairs(X)
+
+
+econ_causality <- lm(causality_log~(per_below_poverty_norm+
+         per_rent_norm+
+         per_no_carnorm+
+         per_college_or_higher_norm+
+         per_lack_plumbing_norm+
+         per_mobile_home_norm)+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+summary(econ_causality)
+
+```
+
+#### Health Dimension and Causality
+```{r}
+cor.test(df$causality_log, df$life_expectancy_2000_norm) # not okay
+cor.test(df$causality_log, df$per_hypertension_2001_norm)# OKAY # remove due to high correlation
+# cor.test(df$causality_log, df$per_heart_disease_35_65_norm)# not okay
+# cor.test(df$causality_log, df$per_heart_disease_65_more_norm)# not okay
+# cor.test(df$causality_log, df$per_stroke_35_65_norm) # OKAY
+# cor.test(df$causality_log, df$per_stroke_65_more_norm) #not okay 
+cor.test(df$causality_log, df$per_diabetes_2000_norm)# not okay
+cor.test(df$causality_log, df$per_disability_norm)# OKAY
+cor.test(df$causality_log, df$per_nursingnorm)# OKAY
+
+
+X<-df%>%
+  select(
+         per_disability_norm,
+         per_nursingnorm) 
+        
+ggpairs(X)
+
+health_causality <- lm(causality_log~(
+         per_disability_norm+
+         per_nursingnorm)+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+
+summary(health_causality)
+
+
+
+```
+
+
+#### Institutional Dimension and Causality
+```{r}
+
+cor.test(df$causality_log, df$FEMA_total_norm) # okay
+cor.test(df$causality_log, df$number_research_institutions_norm) # okay
+cor.test(df$causality_log, df$employees_2001_norm) # okay
+
+
+X<-df%>%
+  select(
+         FEMA_total,
+         number_research_institutions,
+         employees_2001) 
+        
+ggpairs(X)
+
+inst_causality <- lm(causality_log~(FEMA_total_norm+
+         number_research_institutions_norm+
+         employees_2001_norm)+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+
+summary(inst_causality)
+
+
+
+
+```
+
+
+#### Environmental Dimension and Causality
+```{r}
+
+cor.test(df$causality_log, df$air_quality_norm)#okay
+cor.test(df$causality_log, df$water_quality_norm)# not statistically significant
+cor.test(df$causality_log, df$built_quality_norm)#okay
+cor.test(df$causality_log, df$land_quality_norm)#not statistically significan
+cor.test(df$causality_log, df$impervious_surface_norm)#okay
+
+X<-df%>%
+  select(
+         air_quality_norm,
+         built_quality_norm,
+         impervious_surface_norm) 
+        
+ggpairs(X)
+
+environ_causality <- lm(causality_log~(air_quality_norm+
+         built_quality_norm+
+         impervious_surface_norm)+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+
+summary(environ_causality)
+
+```
+
+### Vulnerability using Causualties 
+```{r model_all_causualties, fig.height=15, fig.width=15}
+
+
+X<-df%>%
+  select(per_black_norm,
+              per_hispanic_norm,
+         per_asian_norm,
+         per_american_indian_norm,
+         per_elderly_norm,
+         per_young_dependent_norm,
+         per_female_hh_with_kids_under6_norm,
+         per_rural_norm,
+         per_below_poverty_norm,
+         per_rent_norm,
+         per_no_carnorm,
+         per_college_or_higher_norm,
+         per_lack_plumbing_norm,
+         per_mobile_home_norm,
+
+         per_disability_norm,
+         per_nursingnorm,
+         FEMA_total_norm,
+         number_research_institutions_norm,
+         employees_2001_norm,
+         air_quality_norm,
+         built_quality_norm,
+         impervious_surface_norm) 
+        
+ggpairs(X)
+
+
+model_causality <- lm(causality_log~(per_black_norm+
+              per_hispanic_norm+
+         per_asian_norm+
+         per_american_indian_norm+
+         per_elderly_norm+
+         per_young_dependent_norm+
+         per_female_hh_with_kids_under6_norm+
+         per_rural_norm+
+         per_below_poverty_norm+
+         per_rent_norm+
+         per_no_carnorm+
+         per_college_or_higher_norm+
+         per_lack_plumbing_norm+
+         per_mobile_home_norm+
+
+         per_disability_norm+
+         per_nursingnorm+
+         FEMA_total_norm+
+         number_research_institutions_norm+
+         employees_2001_norm+
+         air_quality_norm+
+         built_quality_norm+
+         impervious_surface_norm)+log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+
+summary(model_causality)
+
+
+```
+
+
+
+### CROP and PROPERTY DAMAGE 
+#### Social Dimension  and Prop Damage
+```{r fig.height=10, fig.width=10}
+### social dimension  VS crop & property dmg
+cor.test(df$prop_dmg_log, df$per_white_norm) ## okay 
+cor.test(df$prop_dmg_log, df$per_black_norm)# okay
+cor.test(df$prop_dmg_log, df$per_hispanic_norm)##not statistically signif
+cor.test(df$prop_dmg_log, df$per_asian_norm)#okay
+cor.test(df$prop_dmg_log, df$per_american_indian_norm)# okay
+cor.test(df$prop_dmg_log, df$per_other_races_norm)#not statistically signif
+cor.test(df$prop_dmg_log, df$per_POC_norm)#okay
+
+
+cor.test(df$prop_dmg_log, df$per_elderly_norm) ##okay
+cor.test(df$prop_dmg_log, df$per_young_dependent_norm)  #okay
+cor.test(df$prop_dmg_log, df$per_noenglish_norm)# ##not statistically signif
+cor.test(df$prop_dmg_log, df$per_foreign_born_norm)##okay 
+cor.test(df$prop_dmg_log, df$per_female_hh_with_kids_under6_norm)##okay
+cor.test(df$prop_dmg_log, df$per_female_hh_with_kids_under18_norm)##okay - highly correlated
+cor.test(df$prop_dmg_log, df$per_rural_norm)#okay
+cor.test(df$prop_dmg_log, df$per_no_schooling_completed_norm) ##not statistically signif
+
+
+X<-df%>%
+  select(
+         per_black_norm,
+         per_asian_norm,
+         per_american_indian_norm,
+    per_elderly_norm,
+         per_young_dependent_norm,
+         per_female_hh_with_kids_under6_norm,
+         per_rural_norm,
+    per_foreign_born_norm) 
+        
+ggpairs(X)
+
+
+social_damage <- lm(prop_dmg_log ~
+                      per_black_norm+
+         per_asian_norm+
+           per_american_indian_norm+
+    per_elderly_norm+
+         per_young_dependent_norm+
+    per_foreign_born_norm+
+         per_female_hh_with_kids_under6_norm+
+         per_rural_norm+
+                        log_pop_2000+numb_haz_log+state+log_median_house_value,data=df, na.rm=TRUE)
+
+summary(social_damage)
+
+
+
+```
+#### Economic Dimension  & prop damage 
+```{r fig.height=10, fig.width=10}
+### economic dimension  VS causality log normalized plot
+
+cor.test(df$prop_dmg_log, df$per_below_poverty_norm) #okay
+cor.test(df$prop_dmg_log, df$median_hh_income_1999_norm)##okay- highly correlated
+cor.test(df$prop_dmg_log, df$per_rent_norm)# okay
+cor.test(df$prop_dmg_log, df$per_no_carnorm)# okay
+
+cor.test(df$prop_dmg_log, df$per_college_or_higher_norm)# okay
+cor.test(df$prop_dmg_log, df$average_hh_norm)##okay
+
+cor.test(df$prop_dmg_log, df$per_lack_plumbing_norm)##okay
+cor.test(df$prop_dmg_log, df$per_lack_kitchen_norm) # okay - highly correlated
+cor.test(df$prop_dmg_log, df$per_mobile_home_norm)# okay
+cor.test(df$prop_dmg_log, df$per_unemployed_norm)## #not statistically significant
+
+
+X<-df%>%
+  select(
+    per_below_poverty_norm, 
+         per_rent_norm,
+         per_no_carnorm,
+         per_college_or_higher_norm,
+    average_hh_norm,
+    per_lack_plumbing_norm,
+         per_mobile_home_norm) 
+        
+ggpairs(X)
+
+
+
+econ_damage <- lm(prop_dmg_log ~per_below_poverty_norm+ 
+         per_rent_norm+
+         per_no_carnorm+
+         per_college_or_higher_norm+
+    average_hh_norm+
+    per_lack_plumbing_norm+
+         per_mobile_home_norm+
+                        log_pop_2000+numb_haz_log+state+log_median_house_value,data=df, na.rm=TRUE)
+
+summary(econ_damage)
+
+
+
+```
+
+#### Health Dimension  & prop damage
+```{r}
+cor.test(df$prop_dmg_log, df$life_expectancy_2000_norm) # okay- highly correlated
+cor.test(df$prop_dmg_log, df$per_hypertension_2001_norm)# okay
+cor.test(df$prop_dmg_log, df$per_heart_disease_35_65_norm)# okay- highly correlated
+cor.test(df$prop_dmg_log, df$per_heart_disease_65_more_norm)# okay
+cor.test(df$prop_dmg_log, df$per_stroke_35_65_norm) # okay- highly correlated
+cor.test(df$prop_dmg_log, df$per_stroke_65_more_norm) #not statistically significant
+cor.test(df$prop_dmg_log, df$per_diabetes_2000_norm)# okay - highly correlated
+cor.test(df$prop_dmg_log, df$per_disability_norm)# not statistically significant
+cor.test(df$prop_dmg_log, df$per_nursingnorm)# okay
+
+
+X<-df%>%
+  select(
+    per_hypertension_2001_norm,
+         per_nursingnorm) 
+        
+ggpairs(X)
+
+
+health_damage <- lm(prop_dmg_log~(per_hypertension_2001_norm+
+         per_nursingnorm)+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+
+summary(health_damage)
+
+df$predict_health_damage <- predict(health_damage, newdata = df)
+
+```
+
+
+#### Institutional Dimension  & prop damage
+```{r}
+cor.test(df$prop_dmg_log, df$FEMA_total_norm) # okay
+cor.test(df$prop_dmg_log, df$number_research_institutions_norm) # okay
+cor.test(df$prop_dmg_log, df$employees_2001_norm) # okay
+
+X<-df%>%
+  select(
+         FEMA_total_norm,
+         number_research_institutions_norm,
+         employees_2001_norm) 
+        
+ggpairs(X)
+
+
+inst_damage <- lm(prop_dmg_log~(FEMA_total_norm+
+         number_research_institutions_norm+
+         employees_2001_norm)+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+
+summary(inst_damage)
+
+```
+
+
+#### Environmental Dimension  & prop damage
+```{r}
+
+
+cor.test(df$prop_dmg_log, df$air_quality_norm)#okay
+cor.test(df$prop_dmg_log, df$water_quality_norm)# 
+cor.test(df$prop_dmg_log, df$built_quality_norm)#okay
+cor.test(df$prop_dmg_log, df$land_quality_norm)#not 
+cor.test(df$prop_dmg_log, df$impervious_surface_norm)#okay
+
+X<-df%>%
+  select(
+         air_quality_norm,
+         water_quality_norm,
+         built_quality_norm,
+         land_quality_norm,
+         impervious_surface_norm) 
+        
+ggpairs(X)
+
+env_damage <- lm(prop_dmg_log~(air_quality_norm+
+         water_quality_norm+
+         built_quality_norm+
+           land_quality_norm+
+           impervious_surface_norm
+           )+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+
+summary(env_damage)
+
+
+
+```
+
+### Vulnerability using crop & prop damage 
+```{r , fig.height=17, fig.width=17}
+
+X<-df%>%
+  select(
+         per_black_norm,
+         per_asian_norm,
+    per_elderly_norm,
+    per_noenglish_norm,
+         per_female_hh_with_kids_under6_norm,
+         per_rural_norm,
+    per_below_poverty_norm, 
+         per_rent_norm,
+         per_no_carnorm,
+         per_college_or_higher_norm,
+    average_hh_norm,
+    per_lack_plumbing_norm,
+         per_mobile_home_norm,
+    air_quality_norm,
+         water_quality_norm,
+         built_quality_norm,
+         land_quality_norm,
+         impervious_surface_norm,
+         per_nursingnorm,
+     FEMA_total_norm,
+         number_research_institutions_norm,
+         employees_2001_norm) 
+        
+ggpairs(X)
+
+
+
+
+
+
+
+model_dmg <- lm(prop_dmg_log~ (per_black_norm+
+         per_asian_norm+
+    per_elderly_norm+
+    per_noenglish_norm+
+         per_female_hh_with_kids_under6_norm+
+         per_rural_norm)+
+                        
+                        (per_nursingnorm)+
+                        
+                        (per_below_poverty_norm+ 
+         per_rent_norm+
+         per_no_carnorm+
+         per_college_or_higher_norm+
+    average_hh_norm+
+    per_lack_plumbing_norm+
+         per_mobile_home_norm)
+                      
+                        +  
+                (FEMA_total_norm+
+         number_research_institutions_norm+
+         employees_2001_norm)        
+                        +
+          (air_quality_norm+
+         water_quality_norm+
+         built_quality_norm+
+           land_quality_norm+
+           impervious_surface_norm )+
+                        log_pop_2000+numb_haz_log+state,data=df, na.rm=TRUE)
+
+summary(model_dmg)
+
+```
+
+

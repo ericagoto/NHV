@@ -1,0 +1,136 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+## Descriptive Statistics of Variables
+
+
+### Libraries & Datasets
+```{r warning=FALSE}
+
+library(readxl)
+library(dplyr)
+library(ggplot2)
+
+df_2000 <- read_excel("data_2000.xlsx")
+
+barfill <- "#4271AE"
+barlines <- "#1F3552"
+
+```
+
+
+### Starting with 2000 Model 
+
+### Social Dimension
+```{r}
+
+
+## african american or black
+
+summary(df_2000$per_black)
+sd(df_2000$per_black)
+
+p1 <- ggplot(df_2000, aes(x = per_black)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "African American or Black Population by County")+
+        scale_y_continuous(name = "Proportion of Percentage") +
+        ggtitle("Frequency of Proportion of Percentange of African American or Black Population by County") +
+  theme_classic()
+
+p1
+
+## asian
+summary(df_2000$per_asian)
+sd(df_2000$per_asian)
+
+p2 <- ggplot(df_2000, aes(x = per_asian)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Asian Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Asian Population by County") +
+  theme_classic()
+
+p2
+
+## elderly
+summary(df_2000$per_elderly)
+sd(df_2000$per_elderly)
+
+p3 <- ggplot(df_2000, aes(x = per_elderly)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Elderly Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Elderly Population by County") +
+  theme_classic()
+
+p3
+
+## yound dependent 
+summary(df_2000$per_young_dependent)
+sd(df_2000$per_young_dependent)
+
+p4 <- ggplot(df_2000, aes(x = per_young_dependent)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.002,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Young Dependent Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Young Dependent by County") +
+  theme_classic()
+
+p4
+
+## foreigner born
+summary(df_2000$per_foreign_born)
+sd(df_2000$per_foreign_born)
+
+p5 <- ggplot(df_2000, aes(x = per_foreign_born)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.005,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Foreign Born Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Foreign Born by County") +
+  theme_classic()
+
+p5
+
+
+## female hh w children under 6
+summary(df_2000$per_female_hh_with_kids_under6)
+sd(df_2000$per_female_hh_with_kids_under6)
+
+p6 <- ggplot(df_2000, aes(x = per_female_hh_with_kids_under6)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.002,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Female Household with Children under 6 Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange of Female Household with Children under 6 by County") +
+  theme_classic()
+
+p6
+
+# rural
+summary(df_2000$per_rural)
+sd(df_2000$per_rural)
+
+p7 <- ggplot(df_2000, aes(x = per_rural)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "Rural Population by County")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("Proportion of Percentange Rural Population by County") +
+  theme_classic()
+
+p7
+
+
+
+```
+
+
+
