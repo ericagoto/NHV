@@ -14,7 +14,7 @@ library(readxl)
 library(dplyr)
 library(ggplot2)
 
-df_2000 <- read_excel("data_2000.xlsx")
+df_2010 <- read_excel("data_2010.xlsx")
 
 barfill <- "#4271AE"
 barlines <- "#1F3552"
@@ -27,10 +27,10 @@ barlines <- "#1F3552"
 ### Dependent Variables
 ```{r}
 
-summary(df_2000$causality_log)
-sd(df_2000$causality_log)
+summary(df_2010$causality_log)
+sd(df_2010$causality_log)
 
-ggplot(df_2000, aes(x = causality_log)) +
+ggplot(df_2010, aes(x = causality_log)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.1,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "")+
@@ -41,10 +41,10 @@ ggplot(df_2000, aes(x = causality_log)) +
 
 
 
-summary(df_2000$prop_dmg_log)
-sd(df_2000$prop_dmg_log)
+summary(df_2010$prop_dmg_log)
+sd(df_2010$prop_dmg_log)
 
-ggplot(df_2000, aes(x = prop_dmg_log)) +
+ggplot(df_2010, aes(x = prop_dmg_log)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.1,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "")+
@@ -62,10 +62,10 @@ ggplot(df_2000, aes(x = prop_dmg_log)) +
 
 ## african american or black
 
-summary(df_2000$per_black)
-sd(df_2000$per_black)
+summary(df_2010$per_black)
+sd(df_2010$per_black)
 
-p1 <- ggplot(df_2000, aes(x = per_black)) +
+p1 <- ggplot(df_2010, aes(x = per_black)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.02,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
@@ -76,10 +76,10 @@ p1 <- ggplot(df_2000, aes(x = per_black)) +
 p1
 
 ## asian
-summary(df_2000$per_asian)
-sd(df_2000$per_asian)
+summary(df_2010$per_asian)
+sd(df_2010$per_asian)
 
-p2 <- ggplot(df_2000, aes(x = per_asian)) +
+p2 <- ggplot(df_2010, aes(x = per_asian)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.01,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
@@ -90,10 +90,10 @@ p2 <- ggplot(df_2000, aes(x = per_asian)) +
 p2
 
 ## elderly
-summary(df_2000$per_elderly)
-sd(df_2000$per_elderly)
+summary(df_2010$per_elderly)
+sd(df_2010$per_elderly)
 
-p3 <- ggplot(df_2000, aes(x = per_elderly)) +
+p3 <- ggplot(df_2010, aes(x = per_elderly)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.01,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
@@ -104,10 +104,10 @@ p3 <- ggplot(df_2000, aes(x = per_elderly)) +
 p3
 
 ## yound dependent 
-summary(df_2000$per_young_dependent)
-sd(df_2000$per_young_dependent)
+summary(df_2010$per_young_dependent)
+sd(df_2010$per_young_dependent)
 
-p4 <- ggplot(df_2000, aes(x = per_young_dependent)) +
+p4 <- ggplot(df_2010, aes(x = per_young_dependent)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.002,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
@@ -118,10 +118,10 @@ p4 <- ggplot(df_2000, aes(x = per_young_dependent)) +
 p4
 
 ## foreigner born
-summary(df_2000$per_foreign_born)
-sd(df_2000$per_foreign_born)
+summary(df_2010$per_foreign_born)
+sd(df_2010$per_foreign_born)
 
-p5 <- ggplot(df_2000, aes(x = per_foreign_born)) +
+p5 <- ggplot(df_2010, aes(x = per_foreign_born)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.005,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
@@ -133,10 +133,10 @@ p5
 
 
 ## female hh w children under 6
-summary(df_2000$per_female_hh_with_kids_under6)
-sd(df_2000$per_female_hh_with_kids_under6)
+summary(df_2010$per_female_hh_with_kids_under6)
+sd(df_2010$per_female_hh_with_kids_under6)
 
-p6 <- ggplot(df_2000, aes(x = per_female_hh_with_kids_under6)) +
+p6 <- ggplot(df_2010, aes(x = per_female_hh_with_kids_under6)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.002,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
@@ -147,10 +147,10 @@ p6 <- ggplot(df_2000, aes(x = per_female_hh_with_kids_under6)) +
 p6
 
 # rural
-summary(df_2000$per_rural)
-sd(df_2000$per_rural)
+summary(df_2010$per_rural)
+sd(df_2010$per_rural)
 
-p7 <- ggplot(df_2000, aes(x = per_rural)) +
+p7 <- ggplot(df_2010, aes(x = per_rural)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.01,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
@@ -160,34 +160,61 @@ p7 <- ggplot(df_2000, aes(x = per_rural)) +
 
 p7
 
+## american indian
+summary(df_2010$per_american_indian)
+sd(df_2010$per_american_indian)
 
+p7 <- ggplot(df_2010, aes(x =per_american_indian )) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "proportion of percentage")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("American Indian and Alaska Native Population by County") +
+  theme_classic()
+
+p7
+
+
+## Less than high-school
+summary(df_2010$per_no_school_completed)
+sd(df_2010$per_no_school_completed)
+
+p8 <- ggplot(df_2010, aes(x = per_no_school_completed)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.001,
+                       colour = barlines, fill = barfill) +
+        scale_x_continuous(name = "proportion of percentage")+
+        scale_y_continuous(name = "Frequency") +
+        ggtitle("No School Completed Population by County") +
+  theme_classic()
+
+p8
 
 ```
 
 ### Economic Dimension
 ```{r economic}
-## below poverty
+## median hh income (US$)
 
-summary(df_2000$per_below_poverty)
-sd(df_2000$per_below_poverty)
+summary(df_2010$median_hh_income_2010)
+sd(df_2010$median_hh_income_2010)
 
-pe1 <- ggplot(df_2000, aes(x = per_below_poverty)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+pe1 <- ggplot(df_2010, aes(x = median_hh_income_2010)) +
+        geom_histogram(aes(y = ..count..), binwidth = 1000,
                        colour = barlines, fill = barfill) +
-        scale_x_continuous(name = "proportion of percentage")+
+        scale_x_continuous(name = "US$")+
         scale_y_continuous(name = "Frequency") +
-        ggtitle("Below Poverty Population by County") +
+        ggtitle("Median Household Income (US$) by County") +
   theme_classic()
 
 pe1
 
 
 ## renter
-summary(df_2000$per_rent)
-sd(df_2000$per_rent)
+summary(df_2010$per_rent)
+sd(df_2010$per_rent)
 
-pe2 <- ggplot(df_2000, aes(x = per_rent)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+pe2 <- ggplot(df_2010, aes(x = per_rent)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
         scale_y_continuous(name = "Frequency") +
@@ -197,26 +224,26 @@ pe2 <- ggplot(df_2000, aes(x = per_rent)) +
 pe2
 
 
-## hh with no car
-summary(df_2000$per_no_car)
-sd(df_2000$per_no_car)
+## Average hh size
+summary(df_2010$average_hh)
+sd(df_2010$average_hh)
 
-pe3 <- ggplot(df_2000, aes(x = per_no_car)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+pe3 <- ggplot(df_2010, aes(x = average_hh)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.05,
                        colour = barlines, fill = barfill) +
-        scale_x_continuous(name = "proportion of percentage")+
+        scale_x_continuous(name = "number")+
         scale_y_continuous(name = "Frequency") +
-        ggtitle("No Car Population by County") +
+        ggtitle("Average Household Size by County") +
   theme_classic()
 
 pe3
 
 ## college or higher education
-summary(df_2000$per_college_or_higher)
-sd(df_2000$per_college_or_higher)
+summary(df_2010$per_college_or_higher)
+sd(df_2010$per_college_or_higher)
 
-pe4 <- ggplot(df_2000, aes(x = per_college_or_higher)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+pe4 <- ggplot(df_2010, aes(x = per_college_or_higher)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.01,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
         scale_y_continuous(name = "Frequency") +
@@ -226,11 +253,11 @@ pe4 <- ggplot(df_2000, aes(x = per_college_or_higher)) +
 pe4
 
 ## hh with lack of plumbing
-summary(df_2000$per_lack_plumbing)
-sd(df_2000$per_lack_plumbing)
+summary(df_2010$per_lack_plumbing)
+sd(df_2010$per_lack_plumbing)
 
-pe5 <- ggplot(df_2000, aes(x = per_lack_plumbing)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+pe5 <- ggplot(df_2010, aes(x = per_lack_plumbing)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.005,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
         scale_y_continuous(name = "Frequency") +
@@ -239,16 +266,16 @@ pe5 <- ggplot(df_2000, aes(x = per_lack_plumbing)) +
 
 pe5
 
-## mobile hom
-summary(df_2000$per_mobile_home)
-sd(df_2000$per_mobile_home)
+## unemployment
+summary(df_2010$per_unemployed)
+sd(df_2010$per_unemployed)
 
-pe6 <- ggplot(df_2000, aes(x = per_mobile_home)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.02,
+pe6 <- ggplot(df_2010, aes(x = per_unemployed)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.005,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
         scale_y_continuous(name = "Frequency") +
-        ggtitle("Mobile Home Population by County") +
+        ggtitle("Unemployed Population by County") +
   theme_classic()
 
 pe6
@@ -258,33 +285,33 @@ pe6
 
 ### Health Dimension
 ```{r}
-## hyperteension
+## Diabetes
 
 
-summary(df_2000$hypertension_2001)
-sd(df_2000$per_below_poverty)
+summary(df_2010$diabetes_2010)
+sd(df_2010$diabetes_2010)
 
-ph1 <- ggplot(df_2000, aes(x = hypertension_2001)) +
+ph1 <- ggplot(df_2010, aes(x = diabetes_2010)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.5,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "percentage")+
         scale_y_continuous(name = "Frequency") +
-        ggtitle("Hypertension Population") +
+        ggtitle("Diabetes Population") +
   theme_classic()
 
 ph1
 
 
 ## nursing home
-summary(df_2000$per_nursing)
-sd(df_2000$per_nursing)
+summary(df_2010$per_nursing)
+sd(df_2010$per_nursing)
 
-ph2 <- ggplot(df_2000, aes(x = per_nursing)) +
+ph2 <- ggplot(df_2010, aes(x = per_nursing)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.02,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "proportion of percentage")+
         scale_y_continuous(name = "Frequency") +
-        ggtitle("Nursing Population") +
+        ggtitle("Nursing Home Population") +
   theme_classic()
 
 ph2
@@ -296,11 +323,11 @@ ph2
 ```{r}
 
 ## fema 
-summary(df_2000$FEMA_total)
-sd(df_2000$FEMA_total)
+summary(df_2010$FEMA_total)
+sd(df_2010$FEMA_total)
 
-pi1 <- ggplot(df_2000, aes(x = FEMA_total)) +
-        geom_histogram(aes(y = ..count..), binwidth = 15000000,
+pi1 <- ggplot(df_2010, aes(x = FEMA_total)) +
+        geom_histogram(aes(y = ..count..), binwidth = 20000000,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "US$")+
         scale_y_continuous(name = "Frequency") +
@@ -309,11 +336,11 @@ pi1 <- ggplot(df_2000, aes(x = FEMA_total)) +
 
 pi1
 ## research institution
-summary(df_2000$number_research_institutions)
-sd(df_2000$number_research_institutions)
+summary(df_2010$number_research_institutions)
+sd(df_2010$number_research_institutions)
 
-pi2 <- ggplot(df_2000, aes(x = number_research_institutions)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.5,
+pi2 <- ggplot(df_2010, aes(x = number_research_institutions)) +
+        geom_histogram(aes(y = ..count..), binwidth = 1,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "number")+
         scale_y_continuous(name = "Frequency") +
@@ -322,11 +349,11 @@ pi2 <- ggplot(df_2000, aes(x = number_research_institutions)) +
 
 pi2
 # numb of local government employees
-summary(df_2000$employees_2001)
-sd(df_2000$employees_2001)
+summary(df_2010$employees_2001)
+sd(df_2010$employees_2001)
 
-pi3 <- ggplot(df_2000, aes(x = employees_2001)) +
-        geom_histogram(aes(y = ..count..), binwidth = 5000,
+pi3 <- ggplot(df_2010, aes(x = employees_2001)) +
+        geom_histogram(aes(y = ..count..), binwidth = 3000,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "number")+
         scale_y_continuous(name = "Frequency") +
@@ -341,10 +368,10 @@ pi3
 ```{r}
 #air quality
 
-summary(df_2000$air_quality)
-sd(df_2000$air_quality)
+summary(df_2010$air_quality)
+sd(df_2010$air_quality)
 
-pen1 <- ggplot(df_2000, aes(x = air_quality)) +
+pen1 <- ggplot(df_2010, aes(x = air_quality)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.1,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "index value")+
@@ -354,25 +381,13 @@ pen1 <- ggplot(df_2000, aes(x = air_quality)) +
 
 pen1
 
-# water quality
-summary(df_2000$water_quality)
-sd(df_2000$water_quality)
 
-pen2 <- ggplot(df_2000, aes(x = water_quality)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.1,
-                       colour = barlines, fill = barfill) +
-        scale_x_continuous(name = "index value")+
-        scale_y_continuous(name = "Frequency") +
-        ggtitle("Water Quality") +
-  theme_classic()
-
-pen2
 
 #built quality
-summary(df_2000$built_quality)
-sd(df_2000$built_quality)
+summary(df_2010$built_quality)
+sd(df_2010$built_quality)
 
-pen3 <- ggplot(df_2000, aes(x = built_quality)) +
+pen3 <- ggplot(df_2010, aes(x = built_quality)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.1,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "index value")+
@@ -383,10 +398,10 @@ pen3 <- ggplot(df_2000, aes(x = built_quality)) +
 pen3
 
 # land quality
-summary(df_2000$land_quality)
-sd(df_2000$land_quality)
+summary(df_2010$land_quality)
+sd(df_2010$land_quality)
 
-pen4 <- ggplot(df_2000, aes(x = land_quality)) +
+pen4 <- ggplot(df_2010, aes(x = land_quality)) +
         geom_histogram(aes(y = ..count..), binwidth = 0.1,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "index value")+
@@ -398,11 +413,11 @@ pen4
 
 # impervious surface
 
-summary(df_2000$impervious_surface)
-sd(df_2000$impervious_surface)
+summary(df_2010$impervious_surface)
+sd(df_2010$impervious_surface)
 
-pen5 <- ggplot(df_2000, aes(x = impervious_surface)) +
-        geom_histogram(aes(y = ..count..), binwidth = 0.1,
+pen5 <- ggplot(df_2010, aes(x = impervious_surface)) +
+        geom_histogram(aes(y = ..count..), binwidth = 0.5,
                        colour = barlines, fill = barfill) +
         scale_x_continuous(name = "percentage")+
         scale_y_continuous(name = "Frequency") +
