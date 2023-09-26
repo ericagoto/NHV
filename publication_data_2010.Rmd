@@ -305,7 +305,7 @@ summary(aggregated_causality)
 
 
 
-### CROP and PROPERTY DAMAGE 
+### PROPERTY DAMAGE 
 #### Social Dimension  and Prop Damage
 ```{r fig.height=10, fig.width=10}
 ### social dimension  VS property dmg
